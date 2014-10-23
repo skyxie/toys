@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int main(int argc, char* argv)
+int main(int argc, char* argv[])
 {
   float f = 0.1f, sum = 0;
   int max = atoi(argv[1]);
@@ -11,7 +12,7 @@ int main(int argc, char* argv)
     float float_product = f * i;
     double double_product = ((double)f) * i;
 
-    printf("%2d) %1.23f %1.23f %1.23f\n", i, sum, float_product1, double_product);
+    printf("%2d) %1.23f %1.23f %1.23f\n", i, sum, float_product, double_product);
 
     sum += f;
   }
