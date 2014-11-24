@@ -1,0 +1,14 @@
+{
+  "name": "express-limits",
+  "version": "0.0.1",
+  "private": true,
+
+  "dependencies": {
+    "commander" : "*",
+    "underscore" : "*",
+    "async" : "*",
+    "express": "*",
+    "winston": "*",
+    "express-winston": "*"
+  }
+}
