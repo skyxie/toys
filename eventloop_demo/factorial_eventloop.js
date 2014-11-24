@@ -1,12 +1,13 @@
 var factorial = function(logger, start, cb) {
   var factorialRecur = function(start, step, factorial, cb) {
     if (step == 0) {
-      logger.debug(start+") calling back "+factorial);
+      logger.debug("%d) calling back %d", start, factorial);
       cb(factorial);
     } else {
       setImmediate(function() {
-        logger.debug(start+") calculating "+(step-1)+"!");
-        factorialRecur(start, step-1, factorial*step, cb);
+        var nextStep = step - 1;
+        logger.debug("%d) calculating %d!", start, nextStep);
+        factorialRecur(start, nextStep, factorial*step, cb);
       });
     }
   };

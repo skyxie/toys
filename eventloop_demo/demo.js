@@ -17,9 +17,9 @@ var loggerTransport = new winston.transports.Console({
 var logger = new winston.Logger({"transports" : [ loggerTransport ]});
 
 commander.version('0.0.1')
-  .option('--factorialEventloop [x]', 'Calculate factorials using event loop up to x')
-  .option('--factorialRecursive [x]', 'Calculate factorials using recursive calls on stack up to x')
-  .option('--readFile [file]', 'Simultaneously read local file')
+  .option('-e, --factorialEventloop [x]', 'Calculate factorials using event loop up to x')
+  .option('-s, --factorialRecursive [x]', 'Calculate factorials using recursive calls on stack up to x')
+  .option('-r, --readFile [file]', 'Simultaneously read local file')
   .parse(process.argv);
 
 if (commander.readFile) {
@@ -36,15 +36,15 @@ if (commander.readFile) {
 
 if (commander.factorialEventloop) {
   _.each(_.range(commander.factorialEventloop), function(i) {
-    logger.info(i+") Start "+i+"!");
+    logger.info("%d) Start %d!", i, i);
     factorialEventloop(logger, i, function(result) {
-      logger.info(i+") End "+i+"! = "+result);
+      logger.info("%d) End %d! = %d", i, i, result);
     });
   });
 } else if (commander.factorialRecursive) {
   _.each(_.range(commander.factorialRecursive), function(i) {
-    logger.info(i+") Start "+i+"!");
+    logger.info("%d) Start %d!", i, i);
     var result = factorialRecursive(logger, i);
-    logger.info(i+") End "+i+"! = "+result);
+    logger.info("%d) End %d! = %d", i, i, result);
   });
 }
