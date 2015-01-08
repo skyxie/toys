@@ -3,7 +3,11 @@ Express Skeleton
 
 This is a bare-bones implementation of the express module intended to test the limits of Express.
 
-Start Server
+#### Install
+
+    npm install
+
+#### Start Server
 
     node express-skeleton.js
 
