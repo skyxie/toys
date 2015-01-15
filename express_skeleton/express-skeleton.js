@@ -3,7 +3,13 @@ var fs = require('fs')
   , winston = require('winston')
   , expressWinston = require('express-winston')
   , EventLoopLagFunction = require('event-loop-lag')
-  , memwatch = require('memwatch');
+  , memwatch = require('memwatch')
+  , multer = require('multer')
+  , commander = require('commander');
+
+commander.version('0.0.1')
+  .option('--multer', 'Use multer instead of bodyParser')
+  .parse(process.argv);
 
 var loggerTransport = new winston.transports.Console({
   level : 'debug',
@@ -32,7 +38,14 @@ setInterval(function() {
 var app = express();
 
 app.use(expressWinston.logger({"transports" : [loggerTransport] }));
-app.use(express.bodyParser({"keepExtensions" : true, "uploadDir" : "/tmp"}));
+
+if (commander.multer) {
+  logger.info("USING multer");
+  app.use(multer({"dest" : "/tmp/"}));
+} else {
+  logger.info("USING bodyParser");
+  app.use(express.bodyParser({"keepExtensions" : true, "uploadDir" : "/tmp"}));
+}
 app.use(express.methodOverride());
 app.use(app.router);
 
@@ -42,6 +55,7 @@ app.post('/(files/)?upload', function(req, res) {
   logger.info("INSIDE UPLOAD FUNCTION");
   if (req.files.Filedata){
     fs.unlink(req.files.Filedata.path, function() {
+      logger.info("REMOVING FILE %s", req.files.Filedata.path);
       res.send(200);
     });
     return;

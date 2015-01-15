@@ -12,6 +12,8 @@
     "winston": "*",
     "express-winston": "*",
     "memwatch": "*",
-    "event-loop-lag": "*"
+    "event-loop-lag": "*",
+    "commander" : "*",
+    "multer" : "*"
   }
 }
