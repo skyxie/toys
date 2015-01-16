@@ -1,0 +1,13 @@
+source :rubygems
+
+ruby '1.8.7', :patchlevel => '374'
+# ruby '2.0.0', :patchlevel => '353'
+
+# JSON.load and JSON.parse will auto-instantiate objects
+gem 'json', '1.5.4'
+
+# Neither JSON.load or JSON.parse will auto-instantiate objects
+# gem 'json', '1.5.5'
+
+# JSON.load will auto-instantiate objects, but JSON.parse will not
+# gem 'json', '1.7.7'
