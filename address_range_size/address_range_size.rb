@@ -31,7 +31,6 @@ end
 
 def parse_maps_line line
   maps_line = line.gsub(/\s+/, ' ').split(' ')
-  lib = maps_line[5]
   address_range = maps_line[0]
 
   addresses = address_range.split("-")
@@ -42,7 +41,12 @@ def parse_maps_line line
   int1, int2 = *(addresses.map { |a| a.to_i(16) })
   size = int2 - int1
   
-  puts "#{human_size(size)} #{lib}"
+  out = []
+  out.push human_size(size)
+  out = out.concat(maps_line[0..4])
+  out.push(maps_line[5] || "")
+
+  puts "%7s %-33s %4s %8s %5s %8s %-s" % out
 end
 
 if !ARGV[0]
