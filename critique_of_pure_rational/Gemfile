@@ -1,0 +1,7 @@
+
+source "http://rubygems.org"
+source :rubygems
+
+ruby "2.0.0"
+
+gem "activesupport", "< 4.1.0"
