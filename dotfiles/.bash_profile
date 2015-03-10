@@ -35,8 +35,9 @@ alias be='bundle exec'
 alias la='ls -al'
 alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
 alias less='less -R'
-alias grep='grep --color=auto'
+alias grep='grep --color=auto --exclude-dir=.git --exclude-dir=log'
 alias db='mysql --host=localhost --port=3306 --user=root'
 
 [[ -s "/Users/skyxie/.rvm/scripts/rvm" ]] && source "/Users/skyxie/.rvm/scripts/rvm"
 
+export ANIMOTO_STACK_ROOT=/Users/skyxie/animoto/stack
