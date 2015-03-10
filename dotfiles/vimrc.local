@@ -1,0 +1,27 @@
+" This vimrc configuration file is intended to be used on top of
+" https://github.com/square/maximum-awesome
+
+" keyboard shortcuts
+inoremap jj <ESC>
+
+set hidden       " Allow unsaved buffers
+set history=1000 " Allow longest history
+
+" Shortcuts to move between buffers
+if has("gui_macvim")
+  map :e :tabnew
+  noremap <leader>p :tabprev<cr>
+  noremap <leader>n :tabnext<cr>
+else
+  noremap <leader>p :bp<cr>
+  noremap <leader>n :bn<cr>
+end
+
+" gui settings
+if (&t_Co == 256 || has('gui_running'))
+  if ($TERM_PROGRAM == 'iTerm.app')
+    colorscheme solarized
+  else
+    colorscheme desert
+  endif
+endif
