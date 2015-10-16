@@ -21,15 +21,21 @@ PS4='+ '
 proml
 
 export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
+export LSCOLORS=GxFxCxDxBxegedabagaced
 export RACK_ENV=development
 export RAILS_ENV=development
-export ANIMOTO_DIR='/Users/skyxie/Development/stack/config'
 export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/lib:/usr/local/opt/libpng/lib/pkgconfig/:/usr/local/opt/freetype/lib/pkgconfig/:/usr/local/opt/fontconfig/lib/pkgconfig/:/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/libiconv/lib/pkgconfig"
 export NODE_PATH="/usr/local/lib/node"
 
-export GOROOT='/usr/local/go'
+# Go install path from brew
+export GOROOT='/usr/local/opt/go/libexec/bin'
 export PATH="$GOROOT/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:/opt/local/lib:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export PATH="$HOME/bin:$PATH"
+
+# Local .bash_profile should set ANIMOTO_STACK_ROOT and source this file
+export ANIMOTO_DIR=$ANIMOTO_STACK_ROOT/config
 
 alias h=history
 alias c=clear
@@ -42,4 +48,4 @@ alias db='mysql --host=localhost --port=3306 --user=root'
 
 [[ -s "/Users/skyxie/.rvm/scripts/rvm" ]] && source "/Users/skyxie/.rvm/scripts/rvm"
 
-export ANIMOTO_STACK_ROOT=/Users/skyxie/animoto/stack
+if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
