@@ -6,24 +6,24 @@ import (
   "time"
 )
 
-func PrintLog(start time.Time, x int, msg string) {
+func printLog(start time.Time, x int, msg string) {
   var now = time.Now()
   var log = fmt.Sprintf("[%12s] %d!", now.Sub(start).String(), x)
   fmt.Println(log, msg)
 }
 
-func StreamLog(x int, logChan chan string, logDone chan int) {
+func streamLog(x int, logChan chan string, logDone chan int) {
   var start = time.Now()
   for {
     
     select {
     case msg, ok := <-logChan:
       if ok {
-        PrintLog(start, x, msg)
+        printLog(start, x, msg)
       }
     case result, ok := <-logDone:
       if ok {
-        PrintLog(start, x, fmt.Sprintf("= %d", result))
+        printLog(start, x, fmt.Sprintf("= %d", result))
       }
     default:
       // noop
@@ -31,13 +31,13 @@ func StreamLog(x int, logChan chan string, logDone chan int) {
   }
 }
 
-func Factorial(x int, logChan chan string) int {
+func factorial(x int, logChan chan string) int {
   if x == 0 {
     logChan <- "end case 0! = 1"
     return 1
   } else {
     logChan <- fmt.Sprintf("recursively multiplying: %d * %d", x, x-1)
-    return x * Factorial(x - 1, logChan)
+    return x * factorial(x - 1, logChan)
   }
 }
 
@@ -53,11 +53,11 @@ func main() {
     
     logChan := make(chan string)
     logDone := make(chan int)
-    go StreamLog(i, logChan, logDone)
+    go streamLog(i, logChan, logDone)
 
     logChan <- "created"
     go func () {
-      logDone <- Factorial(x, logChan)
+      logDone <- factorial(x, logChan)
       done <- true
       close(logChan)
       close(logDone)
