@@ -1,1 +1,3 @@
 *.o
+dec_bin
+float_comparison
