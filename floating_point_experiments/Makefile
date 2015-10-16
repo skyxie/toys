@@ -1,5 +1,5 @@
 bin_dir :
-	mkdir bin
+	mkdir -p bin
 
 dec_bin : bin_dir
 	cc dec_bin.c -o bin/dec_bin

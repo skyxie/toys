@@ -1,5 +1,5 @@
 bin_dir :
-	mkdir bin
+	mkdir -p bin
 
 string_tail : bin_dir
 	cc string_tail.c -o bin/string_tail
