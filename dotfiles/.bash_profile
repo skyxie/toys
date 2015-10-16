@@ -22,12 +22,14 @@ proml
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
-export PATH="/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:/opt/local/lib:$PATH"
 export RACK_ENV=development
 export RAILS_ENV=development
 export ANIMOTO_DIR='/Users/skyxie/Development/stack/config'
 export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/lib:/usr/local/opt/libpng/lib/pkgconfig/:/usr/local/opt/freetype/lib/pkgconfig/:/usr/local/opt/fontconfig/lib/pkgconfig/:/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/libiconv/lib/pkgconfig"
 export NODE_PATH="/usr/local/lib/node"
+
+export GOROOT='/usr/local/go'
+export PATH="$GOROOT/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:/opt/local/lib:$PATH"
 
 alias h=history
 alias c=clear
