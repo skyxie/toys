@@ -3,15 +3,41 @@ package main
 import (
   "fmt"
   "flag"
+  "time"
 )
 
-func factorial(x int) int {
+func PrintLog(start time.Time, x int, msg string) {
+  var now = time.Now()
+  var log = fmt.Sprintf("[%12s] %d!", now.Sub(start).String(), x)
+  fmt.Println(log, msg)
+}
+
+func StreamLog(x int, logChan chan string, logDone chan int) {
+  var start = time.Now()
+  for {
+    
+    select {
+    case msg, ok := <-logChan:
+      if ok {
+        PrintLog(start, x, msg)
+      }
+    case result, ok := <-logDone:
+      if ok {
+        PrintLog(start, x, fmt.Sprintf("= %d", result))
+      }
+    default:
+      // noop
+    }
+  }
+}
+
+func Factorial(x int, logChan chan string) int {
   if x == 0 {
-    fmt.Println("RETURN END CASE: 0! = 1")
+    logChan <- "end case 0! = 1"
     return 1
   } else {
-    fmt.Printf("MULTIPLYING: %d * %d\n", x, x-1)
-    return x * factorial(x - 1)
+    logChan <- fmt.Sprintf("recursively multiplying: %d * %d", x, x-1)
+    return x * Factorial(x - 1, logChan)
   }
 }
 
@@ -24,14 +50,22 @@ func main() {
 
   for i := 0; i < *max; i++ {
     x := i
-    fmt.Printf("GOROUTINE SOLVE %d!\n", x)
+    
+    logChan := make(chan string)
+    logDone := make(chan int)
+    go StreamLog(i, logChan, logDone)
+
+    logChan <- "created"
     go func () {
-      fmt.Printf("SOLUTION: %d! = %d\n", x, factorial(x))
+      logDone <- Factorial(x, logChan)
       done <- true
+      close(logChan)
+      close(logDone)
     }()
   }
 
   for i := 0; i < *max; i++ {
     <- done
   }
+  close(done)
 }
