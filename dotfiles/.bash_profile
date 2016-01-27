@@ -30,9 +30,11 @@ export NODE_PATH="/usr/local/lib/node"
 # Go install path from brew
 export GOROOT='/usr/local/opt/go/libexec/bin'
 export PATH="$GOROOT/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:/opt/local/lib:$PATH"
+export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
 
 # Local .bash_profile should set ANIMOTO_STACK_ROOT and source this file
 export ANIMOTO_DIR=$ANIMOTO_STACK_ROOT/config
