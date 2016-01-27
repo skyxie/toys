@@ -40,22 +40,17 @@ func sumSingle(i int, c chan Result) float32 {
 
 func printTable(max int, table []map[string]string, result chan Result, done chan bool) {
   var start time.Time = time.Now()
-  for {
-    select {
-    case r, ok := <- result:
-      if ok {
-        var event_time time.Time = time.Now()
-        var dur time.Duration = event_time.Sub(start)
-        table[r.iter][r.method] = r.msg
-        fmt.Println("\n", dur.String(), "\n")
-        fmt.Printf("%3s %25s %25s %25s\n", "i", "sum", "float product", "double product")
-        for i, row := range table {
-          fmt.Printf("%3d %25s %25s %25s\n", i, row["sum"], row["single"], row["double"])
-        }
-        fmt.Println("\n")
-        done <- true
-      }
+  for r := range result {
+    var event_time time.Time = time.Now()
+    var dur time.Duration = event_time.Sub(start)
+    table[r.iter][r.method] = r.msg
+    fmt.Println("\n", dur.String(), "\n")
+    fmt.Printf("%3s %25s %25s %25s\n", "i", "sum", "float product", "double product")
+    for i, row := range table {
+      fmt.Printf("%3d %25s %25s %25s\n", i, row["sum"], row["single"], row["double"])
     }
+    fmt.Println("\n")
+    done <- true
   }
 }
 
