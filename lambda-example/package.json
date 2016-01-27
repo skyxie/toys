@@ -1,0 +1,12 @@
+{
+  "name": "lambda-test",
+  "version": "0.0.1",
+  "dependencies": {
+    "async" : "*",
+    "underscore" : "*",
+    "aws-sdk" : "2.2.12",
+    "domain" : "*",
+    "tmp" : "*",
+    "imagemagick": "*"
+  }
+}
