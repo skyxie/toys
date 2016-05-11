@@ -2,21 +2,7 @@
 
 require 'random-word'
 
-Link = Struct.new(:before, :after, :key, :value) do
-  def to_s
-    "(#{key}=>#{value})"
-  end
-
-  def detach
-    if self.before
-      self.before.after = self.after
-    end
-
-    if self.after
-      self.after.before = self.before
-    end
-  end
-end
+require './node'
 
 class Cache
   attr_accessor :limit
@@ -42,7 +28,7 @@ class Cache
     if @hash.has_key?(key)
       @hash[key].value = value
     else
-      link = Link.new(nil, @head, key, value)
+      link = Entry.new(key, value, nil, @head)
       @hash[key] = link
       prepend(link)
     end
