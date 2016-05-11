@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'random-word'
 
 Link = Struct.new(:before, :after, :key, :value) do
