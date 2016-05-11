@@ -36,5 +36,19 @@ list_root = root.toList.farLeft
 list_root.traverseRight do |node|
   print node
 end
-print "\n"
+print "\n\n"
 
+puts "TREE BRANCH SUMS:"
+root.traverseMidLeft([]) do |node, memo|
+  if node.leaf?
+    total = memo.inject(0) do |sum, memo_node|
+      sum + memo_node.value
+    end
+    total += node.value
+
+    puts "#{memo.join(" + ")} + #{node} = #{total}"
+  else
+    memo << node
+  end
+  memo
+end

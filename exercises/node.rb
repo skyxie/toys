@@ -10,17 +10,17 @@ class Node
     @after = after
   end
 
-  def traverseLeft(&block)
-    block.call(self)
+  def traverseLeft(memo=nil, &block)
+    memo = block.call(self, memo)
     if before
-      before.traverseLeft(&block)
+      before.traverseLeft(memo, &block)
     end
   end
 
-  def traverseRight(&block)
-    block.call(self)
+  def traverseRight(memo=nil, &block)
+    memo = block.call(self, memo)
     if after
-      after.traverseRight(&block)
+      after.traverseRight(memo, &block)
     end
   end
 
@@ -30,6 +30,10 @@ class Node
 
   def farRight
     after.nil? ? self : after.farRight
+  end
+
+  def leaf?
+    before.nil? && after.nil?
   end
 
   def to_s
@@ -54,27 +58,39 @@ class TreeNode < Node
     end
   end
 
-  def traverseLeft(&block)
+  def traverseLeft(memo=nil, &block)
     if !before.nil?
-      before.traverseLeft(&block)
+      before.traverseLeft(memo, &block)
     end
 
-    block.call(self)
+    memo = block.call(self, memo)
 
     if !after.nil?
-      after.traverseLeft(&block)
+      after.traverseLeft(memo, &block)
     end
   end
 
-  def traverseRight(&block)
+  def traverseRight(memo=nil, &block)
     if !after.nil?
-      after.traverseRight(&block)
+      after.traverseRight(memo, &block)
     end
 
-    block.call(self)
+    memo = block.call(self, memo)
 
     if !before.nil?
-      before.traverseRight(&block)
+      before.traverseRight(memo, &block)
+    end
+  end
+
+  def traverseMidLeft(memo=nil, &block)
+    memo = block.call(self, memo)
+
+    if !before.nil?
+      before.traverseMidLeft(memo, &block)
+    end
+
+    if !after.nil?
+      after.traverseMidLeft(memo, &block)
     end
   end
 
