@@ -52,3 +52,21 @@ root.traverseMidLeft([]) do |node, memo|
   end
   memo
 end
+puts
+
+puts "TREE COLUMNS:"
+cols = []
+root.columns(cols)
+max_depth = cols.map(&:size).max
+
+(0..max_depth).each do |row|
+  cols.each do |col|
+    if col.size > row
+      printf " %0.2d ", col[row]
+    else
+      print " " * 4
+    end
+  end
+  print "\n"
+end
+

@@ -94,6 +94,29 @@ class TreeNode < Node
     end
   end
 
+  def columns(cols, root_index = 0, offset = 0)
+    if before
+      root_index = before.columns(cols, root_index, offset - 1)
+    end
+
+    while root_index + offset < 0
+      cols.unshift([])
+      root_index += 1
+    end
+
+    while root_index + offset >= cols.size
+      cols.push([])
+    end
+
+    cols[root_index + offset].push(value)
+
+    if after
+      after.columns(cols, root_index, offset + 1)
+    end
+
+    root_index
+  end
+
   def toList
     new_node = Node.new(value)
 
