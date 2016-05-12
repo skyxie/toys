@@ -17,7 +17,9 @@ root = list.inject(nil) do |memo, value|
 end
 
 puts "UNSORTED LIST: #{list.join(",")}"
-puts "SORTED LIST: #{list.sort.join(",")}"
+
+sorted_list = list.sort
+puts "SORTED LIST: #{sorted_list.join(",")}"
 
 printer = Proc.new { |node| print "#{node.value}," }
 
@@ -30,6 +32,8 @@ root.traverseRight(&printer)
 print "\n"
 
 print "TREE:\n#{root.rows().join("\n")}\n"
+
+puts "DEPTH: #{root.depth} SIZE: #{root.size} BALANCED? #{root.balanced?}"
 
 print "LINKED LIST:"
 list_root = root.toList.farLeft

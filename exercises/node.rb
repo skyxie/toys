@@ -36,6 +36,24 @@ class Node
     before.nil? && after.nil?
   end
 
+  def depth(starting_depth=1)
+    _before_depth = before ? before.depth(starting_depth + 1) : starting_depth
+    _after_depth = after ? after.depth(starting_depth + 1) : starting_depth
+    [starting_depth, _before_depth, _after_depth].max
+  end
+
+  def balanced?
+    _before_depth = before ? before.depth() : 0
+    _after_depth = after ? after.depth() : 0
+    (_before_depth - _after_depth).abs <= 1
+  end
+
+  def size
+    _before_size = before ? before.size : 0
+    _after_size = after ? after.size : 0
+    _before_size + _after_size + 1
+  end
+
   def to_s
     "[%0.2d]" % value
   end
