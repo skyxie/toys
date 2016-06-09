@@ -8,7 +8,7 @@ var factorialEventloop = require('./factorial_eventloop');
 var factorialRecursive = require('./factorial_recursive');
 
 var loggerTransport = new winston.transports.Console({
-  "level" : (process.env.LOG_LEVEL || 'info'),
+  "level" : 'debug',
   "dumpExceptions" : true,
   "showStack" : true,
   "timestamp" : true,
@@ -23,6 +23,7 @@ commander.version('0.0.1')
   .parse(process.argv);
 
 if (commander.readFile) {
+  logger.debug("Creating read stream to read file: "+commander.readFile);
   var reader = fs.createReadStream(commander.readFile);
   var chunks = [];
   reader.on('data', function(chunk) {
