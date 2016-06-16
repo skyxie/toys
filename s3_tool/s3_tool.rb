@@ -29,7 +29,7 @@ end
 required_options = [:access_id, :secret_key, :bucket, :path]
 if !(required_options - options.keys).empty?
   puts parser.help
-  exit 0 
+  exit 0
 end
 
 logger = Logger.new(STDERR)
@@ -54,7 +54,11 @@ begin
     object.copy_from(source, {:acl => (!!options[:secret] ? :private : :public_read)})
   end
 
-  puts object.public_url
+  if options[:secret]
+    puts object.presigned_url
+  else
+    puts object.public_url
+  end
 
 rescue Exception => e
   logger.info "Could not get URL - #{e.message}"
