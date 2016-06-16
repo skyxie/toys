@@ -27,6 +27,7 @@ export RAILS_ENV=development
 export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/lib:/usr/local/opt/libpng/lib/pkgconfig/:/usr/local/opt/freetype/lib/pkgconfig/:/usr/local/opt/fontconfig/lib/pkgconfig/:/usr/local/opt/libxml2/lib/pkgconfig:/usr/local/opt/libiconv/lib/pkgconfig"
 export NODE_PATH="/usr/local/lib/node"
 export GOROOT="/usr/local/opt/go/libexec"
+export GOPATH="$HOME/dev/go_path"
 
 # Go install path from brew
 export PATH="$GOROOT/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:/opt/local/lib:$PATH"
@@ -47,7 +48,8 @@ alias be='bundle exec'
 alias la='ls -al'
 alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
 alias less='less -R'
-alias grep='grep --color=auto --exclude-dir=.git --exclude-dir=log'
+alias grep='grep --color=auto --exclude-dir=.git --exclude-dir=log --exclude-dir=vendor'
+alias ag='ag --ignore-dir=.git --ignore-dir=log --ignore-dir=vendor'
 alias db='mysql --host=localhost --port=3306 --user=root'
 
 [[ -s "/Users/skyxie/.rvm/scripts/rvm" ]] && source "/Users/skyxie/.rvm/scripts/rvm"
