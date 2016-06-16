@@ -52,6 +52,4 @@ alias grep='grep --color=auto --exclude-dir=.git --exclude-dir=log --exclude-dir
 alias ag='ag --ignore-dir=.git --ignore-dir=log --ignore-dir=vendor'
 alias db='mysql --host=localhost --port=3306 --user=root'
 
-[[ -s "/Users/skyxie/.rvm/scripts/rvm" ]] && source "/Users/skyxie/.rvm/scripts/rvm"
-
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
