@@ -1,0 +1,21 @@
+Host bastion
+  User <%= bastion_username %>
+  HostName <%= bastion_ip %>
+
+Host *.amazonaws.com
+  User <%= ec2_username %>
+  ProxyCommand ssh -A -q -o Ciphers=arcfour bastion nc %h %p
+  IdentityFile <%= identity_file %>
+
+<% hosts.each do |host, all_ips| %>
+<% ips = all_ips[:private_ips] %>
+<% if ips.size > 1 %>
+<% ips.each_with_index do |ip, i| %>
+Host <%= host %><%= i %>.amazonaws.com
+  HostName <%= ip %>
+<% end %>
+<% else %>
+Host <%= host %>.amazonaws.com
+  HostName <%= ips.last %>
+<% end %>
+<% end %>
