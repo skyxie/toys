@@ -1,6 +1,10 @@
 " This vimrc configuration file is intended to be used on top of
 " https://github.com/square/maximum-awesome
 
+" highlight search
+set hlsearch
+nmap <leader>hl :let @/ = ""<CR>
+
 " keyboard shortcuts
 inoremap jj <ESC>
 
@@ -17,11 +21,10 @@ else
   noremap <leader>n :bn<cr>
 end
 
+
+set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ node_modules\ --ignore\ log\ --ignore\ vendor
+
 " gui settings
 if (&t_Co == 256 || has('gui_running'))
-  if ($TERM_PROGRAM == 'iTerm.app')
-    colorscheme solarized
-  else
-    colorscheme desert
-  endif
+  colorscheme desert
 endif
