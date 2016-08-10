@@ -20,6 +20,7 @@ PS4='+ '
 
 proml
 
+export EDITOR=vim
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 export RACK_ENV=development
