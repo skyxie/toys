@@ -30,13 +30,15 @@ reservations = JSON.parse($stdin.read)
 hosts = reservations["Reservations"].inject({}) do |memo, reservation|
   reservation["Instances"].map do |instance|
     name_tag_pair = instance["Tags"].find { |tag| tag["Key"] == "Name" }
-    name = name_tag_pair["Value"]
-    memo[name] ||= {
-      public_ips: [],
-      private_ips: []
-    }
-    memo[name][:private_ips] << instance["PrivateIpAddress"]
-    memo[name][:public_ips] << instance["PublicIpAddress"]
+    if name_tag_pair
+      name = name_tag_pair["Value"]
+      memo[name] ||= {
+        public_ips: [],
+        private_ips: []
+      }
+      memo[name][:private_ips] << instance["PrivateIpAddress"]
+      memo[name][:public_ips] << instance["PublicIpAddress"]
+    end
   end
   memo
 end
