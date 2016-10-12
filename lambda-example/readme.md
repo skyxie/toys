@@ -1,9 +1,8 @@
-Lambda Test
-----
+# Lambda Test
 
 Example Amazon AWS Lambda function. Triggered by an S3 upload and transforms that upload into many smaller variants.
 
-h1. Credentials
+# Credentials
 
 All credentials should be stored locally in the shared credentials file `~/.aws/credentials` in this format:
 
