@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var _ = require('underscore');
 var commander = require('commander');
 var winston = require('winston');
@@ -17,8 +19,8 @@ var loggerTransport = new winston.transports.Console({
 var logger = new winston.Logger({"transports" : [ loggerTransport ]});
 
 commander.version('0.0.1')
-  .option('-e, --factorialEventloop [x]', 'Calculate factorials using event loop up to x')
-  .option('-s, --factorialRecursive [x]', 'Calculate factorials using recursive calls on stack up to x')
+  .option('-e, --factorialEventloop <x>', 'Calculate factorials using event loop up to x', parseInt)
+  .option('-s, --factorialRecursive <x>', 'Calculate factorials using recursive calls on stack up to x', parseInt)
   .option('-r, --readFile [file]', 'Simultaneously read local file')
   .parse(process.argv);
 

@@ -46,25 +46,9 @@ Using the event loop
     2014-11-24T03:39:49.139Z - info: 1) End 1! = 1
     2014-11-24T03:39:49.139Z - info: 2) End 2! = 2
 
-To include more detail set environment variable `LOG_LEVEL=debug`
-
-    > LOG_LEVEL=debug node demo.js --factorialRecursive.js 3
-    2014-11-24T03:43:38.538Z - info: 0) Start 0!
-    2014-11-24T03:43:38.548Z - debug: 0) returning 1
-    2014-11-24T03:43:38.549Z - info: 0) End 0! = 1
-    2014-11-24T03:43:38.549Z - info: 1) Start 1!
-    2014-11-24T03:43:38.549Z - debug: 1) calculating 1 * 0!
-    2014-11-24T03:43:38.549Z - debug: 1) returning 1
-    2014-11-24T03:43:38.549Z - info: 1) End 1! = 1
-    2014-11-24T03:43:38.549Z - info: 2) Start 2!
-    2014-11-24T03:43:38.549Z - debug: 2) calculating 2 * 1!
-    2014-11-24T03:43:38.549Z - debug: 2) calculating 1 * 0!
-    2014-11-24T03:43:38.549Z - debug: 2) returning 1
-    2014-11-24T03:43:38.549Z - info: 2) End 2! = 2
-
 To show behavior while also performing IO, include options --readFile
 
-    > LOG_LEVEL=debug node demo.js --factorialEventloop 3 --readFile ../conflicts/conflicts.py 
+    > node demo.js --factorialEventloop 3 --readFile ../conflicts/conflicts.py
     2014-11-24T04:42:07.762Z - info: 0) Start 0!
     2014-11-24T04:42:07.766Z - debug: 0) calling back 1
     2014-11-24T04:42:07.766Z - info: 0) End 0! = 1
