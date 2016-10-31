@@ -21,6 +21,7 @@ else
   noremap <leader>n :bn<cr>
 end
 
+noremap <leader>b :tab sball<cr>
 
 set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ node_modules\ --ignore\ log\ --ignore\ vendor
 
