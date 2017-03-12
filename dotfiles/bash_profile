@@ -1,5 +1,5 @@
 function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 function proml {
@@ -11,9 +11,7 @@ function proml {
   local       WHITE="\[\033[1;37m\]"
   local  LIGHT_GRAY="\[\033[0;37m\]"
 
-PS1="$BLUE[$RED\$(date +%H:%M)$BLUE]\
-$BLUE[$RED\w$GREEN\$(parse_git_branch)$BLUE]\
-$GREEN\$$WHITE "
+PS1="$RED\$(date +%H:%M:%S)$BLUE|$LIGHT_RED\$(uname)$BLUE|$LIGHT_GREEN\w$BLUE|$GREEN\$(parse_git_branch)$BLUE\$$WHITE "
 PS2='> '
 PS4='+ '
 }
@@ -35,8 +33,9 @@ alias la='ls -al'
 alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
 alias less='less -R'
 alias grep='grep --color=auto --exclude-dir=.git --exclude-dir=log --exclude-dir=vendor'
-alias ag='ag --ignore-dir=.git --ignore-dir=log --ignore-dir=vendor'
+alias ag='ag --ignore-dir=.git --ignore-dir=log --ignore-dir=vendor --ignore-dir=dist --ignore-dir=node_modules'
 alias db='mysql --host=localhost --port=3306 --user=root'
+alias gulp='./node_modules/gulp/bin/gulp.js'
 
 # Load RVM into a shell session *as a function*
 if [ -s "$HOME/.rvm/scripts/rvm" ]; then
@@ -57,5 +56,24 @@ if which go >& /dev/null; then
   export PATH="$HOME/dev/go_appengine:$PATH"
 fi
 
+if which nodenv >& /dev/null; then
+  export PATH="$HOME/.nodenv/shims:$PATH"
+fi
+
 export PATH="$HOME/bin:$PATH"
 
+if [[ $(uname) != Darwin* ]] ; then
+  export TRANSFIX_HOME=/web/
+else
+  export TRANSFIX_HOME=/vagrant/
+fi
+
+export TRANSFIX_BASTION_USER=tian
+source $TRANSFIX_HOME/transfix-dev-box/scripts/transfix.sh
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/private/tmp/google-cloud-sdk/path.bash.inc' ]; then source '/private/tmp/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/private/tmp/google-cloud-sdk/completion.bash.inc' ]; then source '/private/tmp/google-cloud-sdk/completion.bash.inc'; fi
