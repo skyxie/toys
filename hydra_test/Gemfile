@@ -1,0 +1,6 @@
+source 'http://rubygems.org'
+
+gem 'typhoeus'
+gem 'sinatra'
+gem 'unicorn'
+
