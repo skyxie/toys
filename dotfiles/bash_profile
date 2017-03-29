@@ -62,7 +62,7 @@ fi
 
 export PATH="$HOME/bin:$PATH"
 
-if [[ $(uname) != Darwin* ]] ; then
+if [[ $(uname) == Darwin* ]] ; then
   export TRANSFIX_HOME=/web/
 else
   export TRANSFIX_HOME=/vagrant/
