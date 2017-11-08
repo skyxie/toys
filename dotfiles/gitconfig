@@ -1,0 +1,7 @@
+[user]
+	email = skyxie@gmail.com
+	name = skyxie
+[push]
+	default = current
+[branch]
+	autosetuprebase = always
