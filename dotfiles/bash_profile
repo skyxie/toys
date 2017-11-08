@@ -37,17 +37,18 @@ alias ag='ag --ignore-dir=.git --ignore-dir=log --ignore-dir=vendor --ignore-dir
 alias db='mysql --host=localhost --port=3306 --user=root'
 alias gulp='./node_modules/gulp/bin/gulp.js'
 
-# Load RVM into a shell session *as a function*
-if [ -s "$HOME/.rvm/scripts/rvm" ]; then
-  source "$HOME/.rvm/scripts/rvm"
+# Copy popular Mac OSX utilities pbcopy and pbpaste to Linux
+if hash xclip && [[ $(uname) =~ ^Linux ]]; then
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
 fi
 
-if which rbenv >& /dev/null; then
+if hash rbenv >& /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
 
-if which go >& /dev/null; then
+if hash go >& /dev/null; then
   export GOROOT="/usr/local/opt/go/libexec"
   export GOPATH="$HOME/dev/go_path"
 
@@ -56,24 +57,25 @@ if which go >& /dev/null; then
   export PATH="$HOME/dev/go_appengine:$PATH"
 fi
 
-if which nodenv >& /dev/null; then
+if hash nodenv >& /dev/null; then
   export PATH="$HOME/.nodenv/shims:$PATH"
 fi
 
 export PATH="$HOME/bin:$PATH"
 
-if [[ $(uname) == Darwin* ]] ; then
-  export TRANSFIX_HOME=/web/
-else
-  export TRANSFIX_HOME=/vagrant/
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/private/tmp/google-cloud-sdk/path.bash.inc' ]; then
+  source '/private/tmp/google-cloud-sdk/path.bash.inc'
 fi
 
-export TRANSFIX_BASTION_USER=tian
-source $TRANSFIX_HOME/transfix-dev-box/scripts/transfix.sh
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/private/tmp/google-cloud-sdk/path.bash.inc' ]; then source '/private/tmp/google-cloud-sdk/path.bash.inc'; fi
-
 # The next line enables shell command completion for gcloud.
-if [ -f '/private/tmp/google-cloud-sdk/completion.bash.inc' ]; then source '/private/tmp/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f '/private/tmp/google-cloud-sdk/completion.bash.inc' ]; then
+  source '/private/tmp/google-cloud-sdk/completion.bash.inc'
+fi
+
+# Check for ssh private key has been added to ssh-agent
+ssh-add -l | grep 'id_rsa_yahoo'
+if [ $? -eq 1 ]; then
+  ssh-add ~/.ssh/id_rsa_yahoo
+fi
+
