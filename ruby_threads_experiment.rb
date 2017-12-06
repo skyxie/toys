@@ -1,5 +1,9 @@
 #! /usr/bin/env ruby
 
+#
+# Experiment comparing ruby performance with and without threads
+#
+
 require 'benchmark'
 
 def factorial(x)
