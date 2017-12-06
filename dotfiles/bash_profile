@@ -79,3 +79,11 @@ if [ $? -eq 1 ]; then
   ssh-add ~/.ssh/id_rsa_yahoo
 fi
 
+# The next line enables shell command completion for gcloud.
+if [ -f '/private/tmp/google-cloud-sdk/completion.bash.inc' ]; then source '/private/tmp/google-cloud-sdk/completion.bash.inc'; fi
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
+# added by Anaconda3 4.4.0 installer
+export PATH="/anaconda/bin:$PATH"
