@@ -57,10 +57,6 @@ if hash go >& /dev/null; then
   export PATH="$HOME/dev/go_appengine:$PATH"
 fi
 
-if hash nodenv >& /dev/null; then
-  export PATH="$HOME/.nodenv/shims:$PATH"
-fi
-
 export PATH="$HOME/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
