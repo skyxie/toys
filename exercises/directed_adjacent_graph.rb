@@ -31,6 +31,7 @@ class DirectedAdjacentGraph
     @nodes[src].add @nodes[dest]
   end
 
+  # Given a directed graph, find a path between 2 nodes
   def path src, dest
     path = _path srcPaths: [[@nodes[src]]], dest: @nodes[dest]
     if !path.nil?

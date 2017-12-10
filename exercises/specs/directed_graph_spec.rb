@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require './directed_adjacent_graph'
-require './directed_matrix_graph'
+require 'directed_adjacent_graph'
+require 'directed_matrix_graph'
 
 shared_examples :directed_graph do
   before do

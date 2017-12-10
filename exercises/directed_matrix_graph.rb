@@ -14,6 +14,7 @@ class DirectedMatrixGraph
     @matrix[src].add(dest) if @matrix.has_key?(src) && @matrix.has_key?(dest)
   end
 
+  # Given a directed graph, find a path between 2 nodes
   def path src, dest
     _path srcPaths: [[src]], dest: dest
   end
