@@ -14,29 +14,8 @@ class DirectedMatrixGraph
     @matrix[src].add(dest) if @matrix.has_key?(src) && @matrix.has_key?(dest)
   end
 
-  def to_s
-    formatter = -> (val) { " %#{_max_str_width}s " % val }
-
-    key_order = @matrix.keys
-    str = ([''] + key_order).map(&formatter).join('|') + "\n"
-
-    key_order.each do |row_key|
-      vals = [row_key] + key_order.map do |col_key|
-        @matrix[row_key].include?(col_key) ? "1" : "0"
-      end
-      str += vals.map(&formatter).join('|') + "\n"
-    end
-
-    str
-  end
-
   def path src, dest
     _path srcPaths: [[src]], dest: dest
-  end
-
-  def format_path src, dest
-    result = path src, dest
-    "Path(#{src} -> #{dest}): #{result.nil? ? 'None' : result.join(' -> ')}"
   end
 
   private
@@ -56,9 +35,5 @@ class DirectedMatrixGraph
     end
 
     _path srcPaths: srcNext, dest: dest, visited: visited
-  end
-
-  def _max_str_width
-    @matrix.keys.map(&:size).max
   end
 end
