@@ -123,6 +123,95 @@ describe BinaryTree do
     end
   end
 
+  describe :full? do
+    subject { tree }
+
+    context 'for a single root node' do
+      let(:tree) { BinaryTree.new(1) }
+      it { is_expected.to be_full }
+    end
+
+    context 'for tree with both root branches filled' do
+      let(:tree) { BinaryTree.new(1, BinaryTree.new(2), BinaryTree.new(3)) }
+      it { is_expected.to be_full }
+    end
+
+    context 'for tree with 1 root branch filled' do
+      let(:tree) { BinaryTree.new(1, BinaryTree.new(2)) }
+      it { is_expected.to_not be_full }
+    end
+
+    context 'for unbalanced tree with 2 branches at non-leaf nodes' do
+      let(:tree) do
+        BinaryTree.new(1,
+          BinaryTree.new(2,
+            BinaryTree.new(4,
+              BinaryTree.new(6),
+              BinaryTree.new(7),
+            ),
+            BinaryTree.new(5),
+          ),
+          BinaryTree.new(3)
+        )
+      end
+
+      it { is_expected.to be_full }
+      it { is_expected.to_not be_balanced }
+    end
+  end
+
+  describe :complete? do
+    subject { tree }
+
+    context 'for a single root node' do
+      let(:tree) { BinaryTree.new(1) }
+      it { is_expected.to be_complete }
+    end
+
+    context 'for tree with both root branches' do
+      let(:tree) { BinaryTree.new(1, BinaryTree.new(2), BinaryTree.new(3)) }
+      it { is_expected.to be_complete }
+    end
+
+    context 'for tree with left root branch' do
+      let(:tree) { BinaryTree.new(1, BinaryTree.new(2)) }
+      it { is_expected.to be_complete }
+    end
+
+    context 'for tree with right root branch' do
+      let(:tree) { BinaryTree.new(1, nil, BinaryTree.new(2)) }
+      it { is_expected.to_not be_complete }
+    end
+
+    context 'for tree with all nodes to far left' do
+      let(:tree) do
+        BinaryTree.new(1,
+          BinaryTree.new(2,
+            BinaryTree.new(3)
+          )
+        )
+      end
+
+      it { is_expected.to_not be_complete }
+    end
+
+    context 'for tree with gap between nodes' do
+      let(:tree) do
+        BinaryTree.new(1,
+          BinaryTree.new(2,
+            nil,
+            BinaryTree.new(4)
+          ),
+          BinaryTree.new(3,
+            BinaryTree.new(5)
+          )
+        )
+      end
+
+      it { is_expected.to_not be_complete }
+    end
+  end
+
   describe :perfect? do
     subject { tree }
 
@@ -167,17 +256,21 @@ describe BinaryTree do
   end
 
   describe :create_from_sorted_integers do
-    subject { BinaryTree.create_from_sorted_integers(list) }
-    let(:list) { n.times.map { |i| rand(100) }.sort }
+    subject(:tree) { BinaryTree.create_from_sorted_integers(list) }
 
-    context "for an array of 2**n - 1 ordered integers" do
-      let(:n) { 1023 }
-      it { is_expected.to be_balanced }
-    end
+    (1..7).each do |n|
+      describe "for #{n} integers" do
+        let(:list) { n.times.map { |i| rand(100) }.sort }
 
-    context "for an array of 5 ordered integers" do
-      let(:n) { 5 }
-      it { is_expected.to be_balanced }
+        describe :height do
+          subject { tree.height }
+          it { is_expected.to eql(Math.log(n, 2).to_i + 1) }
+        end
+
+        if Math.log(n+1, 2) - Integer(Math.log(n+1, 2)) == 0
+          it { is_expected.to be_perfect }
+        end
+      end
     end
   end
 end
