@@ -1,6 +1,4 @@
 
-require 'pry'
-
 class Node
   attr_accessor :before, :after, :value
 
