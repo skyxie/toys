@@ -1,11 +1,13 @@
-#!/usr/bin/env ruby
-
-require 'random-word'
-
-require './node'
 
 class Cache
-  attr_accessor :limit
+  attr_accessor :limit, :head
+
+  Node = Struct.new(:key, :value, :left, :right) do
+    def detach
+      left.right = right if !left.nil?
+      right.left = left if !right.nil?
+    end
+  end
 
   def initialize(limit)
     @limit = limit
@@ -15,86 +17,67 @@ class Cache
 
   def get(key)
     if @hash.has_key?(key)
-      link = @hash[key]
-
-      link.detach
-      prepend(link)
-
-      link.value
+      node = @hash[key]
+      node.detach
+      prepend node
+      node.value
     end
   end
 
-  def put(key, value)
+  def put key, value
     if @hash.has_key?(key)
       @hash[key].value = value
     else
-      link = Entry.new(key, value, nil, @head)
-      @hash[key] = link
-      prepend(link)
+      node = Node.new(key, value)
+      @hash[key] = node
+      prepend node
     end
-  end
-
-  def prepend(link)
-    link.after = @head
-    if @head
-      @head.before = link
-    end
-    @head = link
   end
 
   def prune
     _prune(@head, @limit)
   end
 
-  def to_s
-    _stringify(@head)
+  def prepend node
+    node.right = @head
+    if !@head.nil?
+      @head.left = node
+    end
+    @head = node
   end
 
   private
 
-  def _prune(link, limit)
+  def _prune node, limit
+    return if node.nil?
+
     if limit < 0
-      link.detach
-      @hash.delete(link.key)
+      node.detach
+      @hash.delete node.key
     end
 
-    if link.after
-      _prune(link.after, limit - 1)
-    end
-  end
-
-  def _stringify(link)
-    link.nil? ? "END" : "#{link.to_s}\n->#{_stringify(link.after)}"
+    _prune(node.right, limit - 1)
   end
 end
 
-cache = Cache.new(5)
+describe Cache do
+  let(:cache) { Cache.new(5) }
 
-(1..10).each { |i| cache.put(i, RandomWord.nouns.next) }
+  before(:each) do
+    %w{Boston NYC Philadelphia Pittsburgh DC Cleveland Chicago}.each_with_index do |city, i|
+      cache.put(i, city)
+    end
+  end
 
-puts cache
-puts
-puts "5 => #{cache.get(5)}"
-puts
-puts cache
-puts
-puts "6 => #{cache.get(6)}"
-puts
-puts cache
+  it 'should update recency on lookup' do
+    expect(cache.head.value).to eql('Chicago')
+    expect(cache.get(0)).to eql('Boston')
+    expect(cache.head.value).to eql('Boston')
+  end
 
-cache.prune
-
-puts
-puts cache
-puts
-puts "9 => #{cache.get(9)}"
-puts "3 => #{cache.get(3)}"
-puts
-puts cache
-
-cache.limit = 1
-cache.prune
-
-puts
-puts cache
-
+  it 'should keep data until pruning' do
+    expect(cache.get(0)).to eql('Boston')
+    cache.prune
+    expect(cache.get(1)).to be_nil
+  end
+end
