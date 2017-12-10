@@ -25,7 +25,8 @@ shared_examples :directed_graph do
     graph.link 'DC', 'Nashville'
     graph.link 'Charleston', 'Nashville'
     graph.link 'Charleston', 'Atlanta'
-    graph.link 'Atlanta', 'Charleston'
+    graph.link 'Atlanta', 'Nashville'
+    graph.link 'Nashville', 'Charleston'
   end
 
   it 'should map a point to itself' do
@@ -51,12 +52,12 @@ shared_examples :directed_graph do
     expect(graph.path('Portland', 'NewHaven')).to be_nil
   end
 
-  it 'should allow one-way path' do
-    expect(graph.path('Boston', 'Portland')).to be_nil
-    expect(graph.path('Portland', 'Boston')).to eql(['Portland', 'Boston'])
-    expect(graph.path('Nashville', 'Atlanta')).to be_nil
-    expect(graph.path('Atlanta', 'Nashville')).to eql([
-      'Atlanta', 'Charleston', 'Nashville'
+  it 'should not be bothered by cycles' do
+    expect(graph.path('Charleston', 'Atlanta')).to eql([
+      'Charleston', 'Atlanta'
+    ])
+    expect(graph.path('Atlanta', 'Charleston')).to eql([
+      'Atlanta', 'Nashville', 'Charleston'
     ])
     expect(graph.path('Cleveland', 'Chicago')).to eql([
       'Cleveland', 'Chicago'
@@ -64,6 +65,11 @@ shared_examples :directed_graph do
     expect(graph.path('Chicago', 'Cleveland')).to eql([
       'Chicago', 'Pittsburgh', 'Cleveland'
     ])
+  end
+
+  it 'should allow one-way path' do
+    expect(graph.path('Boston', 'Portland')).to be_nil
+    expect(graph.path('Portland', 'Boston')).to eql(['Portland', 'Boston'])
   end
 end
 

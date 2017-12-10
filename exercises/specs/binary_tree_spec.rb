@@ -1,4 +1,5 @@
 require 'binary_tree'
+require 'linked_list'
 
 describe BinaryTree do
 
@@ -212,46 +213,108 @@ describe BinaryTree do
     end
   end
 
-  describe :perfect? do
-    subject { tree }
+  describe :linked_list_per_depth do
+    subject { tree.linked_list_per_depth }
 
     context 'for a single root node' do
       let(:tree) { BinaryTree.new(1) }
-      xit { is_expected.to be_perfect }
+      it { is_expected.to eql([LinkedList.new(1)]) }
     end
 
-    context 'for a small evenly-distributed tree' do
-      let(:tree) { BinaryTree.new(1, BinaryTree.new(2), BinaryTree.new(3)) }
-      xit { is_expected.to be_perfect }
-    end
-
-    context 'for a large evenly-distributed tree' do
+    context 'for an incomplete tree' do
       let(:tree) do
         BinaryTree.new(1,
           BinaryTree.new(2,
-            BinaryTree.new(4,
-              BinaryTree.new(8),
-              BinaryTree.new(9)
-            ),
-            BinaryTree.new(5,
-              BinaryTree.new(10),
-              BinaryTree.new(11)
-            )
+            nil,
+            BinaryTree.new(4)
           ),
           BinaryTree.new(3,
-            BinaryTree.new(6,
-              BinaryTree.new(12),
-              BinaryTree.new(13)
-            ),
-            BinaryTree.new(7,
-              BinaryTree.new(14),
-              BinaryTree.new(15)
-            )
+            BinaryTree.new(5)
           )
         )
       end
 
-      xit { is_expected.to be_perfect }
+      it { is_expected.to eql([
+        LinkedList.new(1),
+        LinkedList.new(2, LinkedList.new(3)),
+        LinkedList.new(4, LinkedList.new(5)),
+      ]) }
+    end
+  end
+
+  describe :bst? do
+    subject { tree }
+
+    context 'for a single root node' do
+      let(:tree) { BinaryTree.new(1) }
+      it { is_expected.to be_bst }
+    end
+
+    context 'for a complete tree where all nodes are left <= middle < right' do
+      let(:tree) do
+        BinaryTree.new(4,
+          BinaryTree.new(2,
+            BinaryTree.new(1),
+            BinaryTree.new(3),
+          ),
+          BinaryTree.new(6,
+            BinaryTree.new(5),
+            BinaryTree.new(7),
+          )
+        )
+      end
+
+      it { is_expected.to be_bst }
+    end
+
+    context 'for a tree with gaps where all nodes are left <= middle < right' do
+      let(:tree) do
+        BinaryTree.new(4,
+          BinaryTree.new(2,
+            BinaryTree.new(1)
+          ),
+          BinaryTree.new(6,
+            nil,
+            BinaryTree.new(7),
+          )
+        )
+      end
+
+      it { is_expected.to be_bst }
+    end
+
+    context 'for a tree where some nodes are not left <= middle' do
+      let(:tree) do
+        BinaryTree.new(4,
+          BinaryTree.new(1,
+            BinaryTree.new(2),
+            BinaryTree.new(3),
+          ),
+          BinaryTree.new(6,
+            BinaryTree.new(5),
+            BinaryTree.new(7),
+          )
+        )
+      end
+
+      it { is_expected.to_not be_bst }
+    end
+
+    context 'for a tree where some nodes are not middle < right' do
+      let(:tree) do
+        BinaryTree.new(4,
+          BinaryTree.new(3,
+            BinaryTree.new(1),
+            BinaryTree.new(3),
+          ),
+          BinaryTree.new(6,
+            BinaryTree.new(5),
+            BinaryTree.new(7),
+          )
+        )
+      end
+
+      it { is_expected.to_not be_bst }
     end
   end
 
@@ -266,6 +329,9 @@ describe BinaryTree do
           subject { tree.height }
           it { is_expected.to eql(Math.log(n, 2).to_i + 1) }
         end
+
+        it { is_expected.to be_balanced }
+        it { is_expected.to be_bst }
 
         if Math.log(n+1, 2) - Integer(Math.log(n+1, 2)) == 0
           it { is_expected.to be_perfect }
