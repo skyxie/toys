@@ -286,13 +286,13 @@ describe BinaryTree do
     context 'for a tree where some nodes are not left <= middle' do
       let(:tree) do
         BinaryTree.new(4,
-          BinaryTree.new(1,
+          BinaryTree.new(1,    # sub-tree is BST
             BinaryTree.new(2),
-            BinaryTree.new(3),
+            BinaryTree.new(5), # > root value
           ),
-          BinaryTree.new(6,
-            BinaryTree.new(5),
-            BinaryTree.new(7),
+          BinaryTree.new(7,
+            BinaryTree.new(6),
+            BinaryTree.new(8),
           )
         )
       end
@@ -303,12 +303,12 @@ describe BinaryTree do
     context 'for a tree where some nodes are not middle < right' do
       let(:tree) do
         BinaryTree.new(4,
-          BinaryTree.new(3,
+          BinaryTree.new(2,
             BinaryTree.new(1),
             BinaryTree.new(3),
           ),
-          BinaryTree.new(6,
-            BinaryTree.new(5),
+          BinaryTree.new(6,    # sub-tree is BST
+            BinaryTree.new(4), # == root value
             BinaryTree.new(7),
           )
         )

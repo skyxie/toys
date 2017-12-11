@@ -27,17 +27,24 @@ class BinaryTree
   # A tree is balanced if the heights of 2 subtrees are not different by more than 1
   # for each subtree
   def balanced?
-    (@left.nil? || @left.balanced?) &&
-    (@right.nil? || @right.balanced?) &&
-    ((@left.nil? ? 0 : @left.height) - (@right.nil? ? 0 : @right.height)).abs <= 1
+    height do |left_height, right_height|
+      if (left_height - right_height).abs > 1
+        return false
+      end
+    end
+
+    return true
   end
 
   def size
     1 + (@left.nil? ? 0 : @left.size) + (@right.nil? ? 0 : @right.size)
   end
 
-  def height
-    1 + [(@left.nil? ? 0 : @left.height), (@right.nil? ? 0 : @right.height)].max
+  def height &block
+    left_height = @left.nil? ? 0 : @left.height(&block)
+    right_height = @right.nil? ? 0 : @right.height(&block)
+    block.call left_height, right_height if !block.nil?
+    1 + [left_height, right_height].max
   end
 
   def each_depth &block
@@ -88,9 +95,23 @@ class BinaryTree
     list
   end
 
+  # A tree is a binary search tree (BST) if for every node,
+  # all left nodes have values <= current node value
+  # all right nodes have values > current node value
   def bst?
-    (@left.nil? || @left.bst? && @left.value <= @value) &&
-      (@right.nil? || @right.bst? && @right.value > @value)
+    with_values do |left_vals, value, right_vals|
+      left_max, right_min = left_vals.max, right_vals.min
+      return false if (!left_max.nil? && left_max > value) ||
+                     (!right_min.nil? && right_min <= value)
+    end
+    true
+  end
+
+  def with_values &block
+    left_values = @left.nil? ? [] : @left.with_values(&block)
+    right_values = @right.nil? ? [] : @right.with_values(&block)
+    block.call(left_values, @value, right_values) if !block.nil?
+    left_values + [@value] + right_values
   end
 
   def self.create_from_sorted_integers values

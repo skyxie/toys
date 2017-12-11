@@ -10,8 +10,16 @@ class DirectedAdjacentGraph
 
     attr_reader :value, :nodes
 
+    def empty?
+      @nodes.empty?
+    end
+
     def add node
       @nodes.add node
+    end
+
+    def delete node
+      @nodes.delete node
     end
 
     def linked? node
@@ -23,6 +31,10 @@ class DirectedAdjacentGraph
     @nodes = {}
   end
 
+  def size
+    @nodes.size
+  end
+
   def add_node value
     @nodes[value] = Node.new(value)
   end
@@ -31,11 +43,53 @@ class DirectedAdjacentGraph
     @nodes[src].add @nodes[dest]
   end
 
+  def remove_link src, dest
+    @nodes[src].delete @nodes[dest]
+  end
+
   # Given a directed graph, find a path between 2 nodes
   def path src, dest
     path = _path srcPaths: [[@nodes[src]]], dest: @nodes[dest]
     if !path.nil?
       path.map(&:value)
+    end
+  end
+
+  # List all nodes in order of layers from outside-to-inside
+  def path_layers limit=100
+    layers = []
+
+    remaining = @nodes.dup
+
+    loop do
+      raise 'Exceeded threshold of 100, graph contains loop!' if limit == 0
+      break if remaining.empty?
+      layer = []
+      DirectedAdjacentGraph.reverse(remaining).each_pair do |dest_val, dest_node|
+        if dest_node.empty?
+          layer.push dest_val
+          remaining.delete dest_val
+        end
+      end
+      layers.push layer
+      limit -= 1
+    end
+
+    layers
+  end
+
+  def self.reverse nodes
+    empty_init = Hash[nodes.keys.map { |k| [k, Node.new(k)]}]
+
+    nodes.reduce(empty_init) do |rev_nodes, (src_val, src_node)|
+      src_node.nodes.each do |dest_node|
+        rev_dest_node = rev_nodes[dest_node.value]
+        rev_src_node = Node.new(src_val)
+        rev_dest_node.add rev_src_node
+        rev_nodes[dest_node.value] = rev_dest_node
+      end
+
+      rev_nodes
     end
   end
 
