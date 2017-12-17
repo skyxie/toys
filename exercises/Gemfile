@@ -2,4 +2,5 @@ source 'http://rubygems.org'
 
 gem 'rspec'
 gem 'pry'
+gem 'priority_queue', '0.0.8', git: 'git@github.com:skyxie/priority_queue.git'
 

@@ -6,7 +6,7 @@ class BinaryTree
     @left = left
     @right = right
   end
-  attr_reader :value
+  attr_reader :value, :left, :right
 
   def children
     [@left, @right]
@@ -112,6 +112,40 @@ class BinaryTree
     right_values = @right.nil? ? [] : @right.with_values(&block)
     block.call(left_values, @value, right_values) if !block.nil?
     left_values + [@value] + right_values
+  end
+
+  def common_ancestor a, b
+    return a if a == b
+
+    a_path = nil
+    b_path = nil
+
+    bfs do |node, path|
+      a_path = path if node == a
+      b_path = path if node == b
+      if !a_path.nil? && !b_path.nil?
+        (1..([a_path.size, b_path.size].min - 1)).each do |i|
+          return a_path[i-1] if a_path[i] != b_path[i]
+        end
+      end
+    end
+
+    return nil # Could not find at least one node
+  end
+
+  def bfs &block
+    paths = [[self]]
+    loop do
+      break if paths.empty?
+
+      current_path = paths.shift
+      current_node = current_path.last
+
+      block.call current_node, current_path
+
+      paths.push(current_path + [current_node.left]) if !current_node.left.nil?
+      paths.push(current_path + [current_node.right]) if !current_node.right.nil?
+    end
   end
 
   def self.create_from_sorted_integers values

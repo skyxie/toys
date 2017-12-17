@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require 'directed_adjacent_graph'
 require 'directed_matrix_graph'
 

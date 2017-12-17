@@ -1,3 +1,4 @@
+require 'pry'
 require 'binary_tree'
 require 'linked_list'
 
@@ -315,6 +316,68 @@ describe BinaryTree do
       end
 
       it { is_expected.to_not be_bst }
+    end
+  end
+
+  describe :common_ancestor do
+    let(:a) { BinaryTree.new(10, BinaryTree.new(9)) }
+    let(:b) { BinaryTree.new(2, nil, BinaryTree.new(3)) }
+    subject { tree.common_ancestor(a, b) }
+
+    context 'when a and b are the same node in the tree' do
+      let(:b) { a }
+      let(:tree) { BinaryTree.new(5, b) }
+      it { is_expected.to equal(a) }
+    end
+
+    context 'when one node is not in the tree' do
+      let(:tree) { BinaryTree.new(5, b) }
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the root is the common ancestor' do
+      let(:tree) do
+        BinaryTree.new(5,
+          BinaryTree.new(3.5,
+            b,
+            BinaryTree.new(4.5)
+          ),
+          BinaryTree.new(6,
+            BinaryTree.new(8,
+              BinaryTree.new(7),
+              BinaryTree.new(8.5)
+            ),
+            a
+          )
+        )
+      end
+
+      it { is_expected.to equal(tree) }
+    end
+
+    context 'when a node in the middle of the tree is the common ancestor' do
+      let(:node) { BinaryTree.new(5, b, a) }
+
+      let(:tree) do
+        BinaryTree.new(1,
+          BinaryTree.new(2,
+            BinaryTree.new(3),
+            BinaryTree.new(4,
+              node,
+              BinaryTree.new(5)
+            )
+          ),
+          BinaryTree.new(6,
+            BinaryTree.new(7,
+              BinaryTree.new(8),
+              BinaryTree.new(9)
+            ),
+            BinaryTree.new(10)
+          )
+        )
+      end
+
+      it { is_expected.to equal(node) }
     end
   end
 
