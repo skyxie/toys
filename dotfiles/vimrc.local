@@ -21,6 +21,9 @@ else
   noremap <leader>n :bn<cr>
 end
 
+" For copy + paste
+set clipboard=unnamed
+
 noremap <leader>b :tab sball<cr>
 
 set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ node_modules\ --ignore\ log\ --ignore\ vendor
