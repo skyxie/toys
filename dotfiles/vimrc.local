@@ -5,6 +5,9 @@
 set hlsearch
 nmap <leader>hl :let @/ = ""<CR>
 
+" Toggle relative numbers
+nmap <leader>r :set relativenumber!<cr>
+
 " keyboard shortcuts
 inoremap jj <ESC>
 
