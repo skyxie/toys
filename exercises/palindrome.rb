@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+#
+# Turn each string into the shortest palindrome possible.
+#
+
 def palindrome?(str)
   n = str.size / 2
   (0..n).all? do |i|
