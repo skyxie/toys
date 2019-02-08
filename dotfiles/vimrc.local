@@ -8,6 +8,11 @@ nmap <leader>hl :let @/ = ""<CR>
 " Toggle relative numbers
 nmap <leader>r :set relativenumber!<cr>
 
+" Turn on vim pathogen plugin
+" execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
 " keyboard shortcuts
 inoremap jj <ESC>
 
@@ -15,14 +20,13 @@ set hidden       " Allow unsaved buffers
 set history=1000 " Allow longest history
 
 " Shortcuts to move between buffers
-if has("gui_macvim")
-  map :e :tabnew
-  noremap <leader>p :tabprev<cr>
-  noremap <leader>n :tabnext<cr>
-else
-  noremap <leader>p :bp<cr>
-  noremap <leader>n :bn<cr>
-end
+map :e :tabnew
+noremap <leader>p :bp<cr>
+noremap <leader>n :bn<cr>
+colorscheme desert
+
+" Set color column color to soft grey
+highlight ColorColumn ctermbg=8
 
 " For copy + paste
 set clipboard=unnamed
@@ -30,8 +34,3 @@ set clipboard=unnamed
 noremap <leader>b :tab sball<cr>
 
 set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ node_modules\ --ignore\ log\ --ignore\ vendor
-
-" gui settings
-if (&t_Co == 256 || has('gui_running'))
-  colorscheme desert
-endif
