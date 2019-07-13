@@ -1,8 +1,0 @@
-dist/*
-node_modules/*
-jspm_packages/*
-.pytest_cache
-.cache
-.parse
-.vscode
-
