@@ -1,6 +1,5 @@
 GEM
   remote: http://rubygems.org/
-  remote: http://rubygems.org/
   specs:
     activesupport (4.0.13)
       i18n (~> 0.6, >= 0.6.9)
@@ -12,7 +11,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.10.1)
     thread_safe (0.3.4)
-    tzinfo (0.3.43)
+    tzinfo (0.3.61)
 
 PLATFORMS
   ruby
