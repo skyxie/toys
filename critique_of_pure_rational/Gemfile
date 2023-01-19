@@ -4,4 +4,4 @@ source :rubygems
 
 ruby "2.0.0"
 
-gem "activesupport", "< 4.1.0"
+gem "activesupport", "< 4.3.0"
