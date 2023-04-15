@@ -4,7 +4,7 @@ ruby '1.8.7', :patchlevel => '374'
 # ruby '2.0.0', :patchlevel => '353'
 
 # JSON.load and JSON.parse will auto-instantiate objects
-gem 'json', '1.5.4'
+gem 'json', '2.6.1'
 
 # Neither JSON.load or JSON.parse will auto-instantiate objects
 # gem 'json', '1.5.5'
